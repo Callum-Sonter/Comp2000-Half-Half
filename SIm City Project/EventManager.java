@@ -8,6 +8,14 @@ public class EventManager<T extends CityEvent>{
         list.add(eventT);
     }
 
+    public void runEvent(Window window){
+        if (list.get(indexActive)!=null && indexActive<list.size()) 
+            list.get(indexActive).run(window);
+        else{
+            indexActive = 0;
+        }
+    }
+
     public void runAll(Window window){
         for(int i = 0; i<list.size(); i++){
             list.get(i).run(window);
@@ -15,7 +23,9 @@ public class EventManager<T extends CityEvent>{
     }
 
     public T nextEvent(){
-        return list.get(indexActive+1);
+        if (list.get(indexActive+1)!=null && indexActive<list.size() )
+            return list.get(indexActive+1);
+        return null;
     }
     
 }

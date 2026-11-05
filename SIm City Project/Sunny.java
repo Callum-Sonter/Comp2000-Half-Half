@@ -1,8 +1,7 @@
-public class Sunny implements WeatherState{
-    
-    @Override 
-    public void action(WeatherState context){
+public class Sunny implements WeatherState {
 
-        context.setState()
+    @Override
+    public void action(Weather context) {
+        context.setState(this);
     }
 }

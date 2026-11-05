@@ -1,4 +1,4 @@
-public class flood implements eventLogic {
+public class Flood implements EventLogic {
     int casualties = 600;
 
     public void event(int x){

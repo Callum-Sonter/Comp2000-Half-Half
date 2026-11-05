@@ -1,4 +1,5 @@
-public class babyBoom implements eventLogic {
+package strategy;
+public class BabyBoom implements EventLogic {
     int popBurst = 600;
     
     public void event(int x) {

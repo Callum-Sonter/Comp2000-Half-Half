@@ -4,6 +4,8 @@ public class Main {
         System.out.println("Initializing program");
         Window w = new Window(800, 600);
         StatsWindow sw = new StatsWindow(300, 300);
+        EventStrategyManager eventManager = new EventStrategyManager();
+        EventLogic[] events = {new Volcano(), new Flood(), new BabyBoom()};
 
         
         Office o = new Office(0, 0);

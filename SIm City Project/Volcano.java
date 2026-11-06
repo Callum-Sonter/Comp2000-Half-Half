@@ -1,11 +1,10 @@
-public class Volcano implements EventLogic{
+public class Volcano implements EventLogic {
+    private static final int BUILDINGS_DESTROYED = 5;
 
-    int casualties = 500;
-    public void event(int x){
-        System.out.println("aahhhhh its errupting!!");
-        System.out.println("the Volcano has taken " + casualties + " casualties!");
-        int calc = x - casualties;
-        System.out.println("Population: " + calc);
+    @Override
+    public void event(Window city) {
+        city.destroyRandomBuildings(BUILDINGS_DESTROYED);
+        System.out.println("Volcano! Population is now " + city.totalPeople());
     }
 
     // make reference to window

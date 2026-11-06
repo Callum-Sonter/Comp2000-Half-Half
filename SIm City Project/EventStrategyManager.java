@@ -1,13 +1,12 @@
-// this is the context, this should contain a reference to our strategies interface, a method for setting the strategy and a method for executing them
+// The context in the Strategy pattern: it holds the current event and runs it
 public class EventStrategyManager {
-    
-    EventLogic strategies;    
+    private EventLogic strategy;
 
-    public void SetStrategy(EventLogic s){
-        this.strategies = s;
+    public void setStrategy(EventLogic strategy) {
+        this.strategy = strategy;
     }
 
-    public void executeStrategy(int population){
-        strategies.event(population);
+    public void executeStrategy(Window city) {
+        strategy.event(city);
     }
 }

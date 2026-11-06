@@ -1,5 +1,6 @@
-
+import java.util.Random;
 public class Main {
+    private static final int EVENT_INTERVAL = 20;
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing program");
         Window w = new Window(800, 600);
@@ -12,11 +13,22 @@ public class Main {
         int money = o.generateIncome();
        //creating main loop
 
+          Random random = new Random();
+       int tick = 0;
+
        while (w.isDisplayable()){
             w.houseMain();
+            tick++;
+
+            // every 20 ticks (about 10 seconds), a random event hits the city
+            if (tick % EVENT_INTERVAL == 0) {
+                eventManager.setStrategy(events[random.nextInt(events.length)]);
+                eventManager.executeStrategy(w);
+            }
+
+            sw.updateLabel(Integer.toString(w.totalPeople()));
             Thread.sleep(500);
             w.repaint();
-
        }
 
 

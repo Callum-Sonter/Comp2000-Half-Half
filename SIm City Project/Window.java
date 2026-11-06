@@ -2,6 +2,10 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 public class Window extends Frame {
 
     private int width;
@@ -130,6 +134,21 @@ public class Window extends Frame {
         //ovalg2d.drawOval(75,75,25,25);
         ovalg2d.fillOval((x*50)+7,(y*50)+7,35,35);
     }
+
+        // used by the Volcano event
+    public void destroyRandomBuildings(int count) {
+        List<int[]> occupied = IntStream.range(0, grid.length)
+                .boxed()
+                .flatMap(x -> IntStream.range(0, grid[x].length)
+                        .filter(y -> grid[x][y] != null)
+                        .mapToObj(y -> new int[]{x, y}))
+                .collect(Collectors.toList());
+
+        Collections.shuffle(occupied);
+        occupied.stream()
+                .limit(count)
+                .forEach(cell -> remove(cell[0], cell[1]));
+    }
     
     public void remove(int x, int y){ 
         grid[x][y] = null;
@@ -249,17 +268,21 @@ public class Window extends Frame {
         return count;
     }
 
-    public void houseMain(){
+     public void houseMain(){
         House house = new House(2,2);
         // check if needed
         //incPopulation();
         //find locaiton
         int[] locaition = findFreeLocation();
+        // the chosen area of the grid can be full, so skip placing this tick
+        if (locaition == null) {
+            return;
+        }
         //draw
         place(locaition[0], locaition[1], house);
         System.out.println("total population: "+ totalPeople());
     }
-
+    
         public void decPopulation(){
         int step = 30;
         ArrayList<House> total = new ArrayList<House>();

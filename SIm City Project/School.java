@@ -3,19 +3,18 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+// Fix 1: Use "extends Building" and "implements PopulationObserver"
 public class School extends Building implements PopulationObserver {
 
     // ---------- Observer pattern: subject side ----------
     private final List<PopulationObserver> observers = new ArrayList<>();
 
-    // ---------- Immutable fields (safe for parallel streams) ----------
+    // ---------- Immutable fields ----------
     private final int students;
     private final int teachers;
     private final String name;
 
     // ---------- Default constructor used by Main ----------
-    // Main does:  School test4 = new School();
-    //             w.place(6, 8, test4);
     public School() {
         this(new Builder());
     }
@@ -25,6 +24,8 @@ public class School extends Building implements PopulationObserver {
         this.name     = b.name;
         this.students = b.students;
         this.teachers = b.teachers;
+        
+        // We assign the parent Building's x and y variables here
         this.x        = b.x;
         this.y        = b.y;
     }
@@ -62,11 +63,15 @@ public class School extends Building implements PopulationObserver {
     public void addObserver(PopulationObserver o)    { observers.add(o); }
     public void removeObserver(PopulationObserver o) { observers.remove(o); }
 
-    private void notifyObservers() {
+    // Fix 2: Changed to public so it can be called from Window/Simulation if needed
+    public void notifyObservers() {
         int pop = getPopulation();
-        for (PopulationObserver o : observers) o.onPopulationChanged(this, pop);
+        for (PopulationObserver o : observers) {
+            o.onPopulationChanged(this, pop); // <-- This uses the fixed interface
+        }
     }
 
+    // Fix 3: Matches the interface signature exactly
     @Override
     public void onPopulationChanged(Building source, int newPopulation) {
         if (newPopulation > getPopulation()) {
@@ -80,10 +85,11 @@ public class School extends Building implements PopulationObserver {
     public int getTeachers() { return teachers; }
     public String getName()  { return name; }
 
+    // Fix 4: Added @Override because this overrides Building's method
     @Override
     public int getPopulation() { return students + teachers; }
 
-    // ---------- Rendering (Template Method override) ----------
+    // ---------- Rendering ----------
     @Override
     public void build(Graphics2D g2d, int x, int y) {
         g2d.setColor(new Color(128, 0, 128));          // purple = school

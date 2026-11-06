@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.Arrays;
+import java.util.function.Predicate;
 public class Window extends Frame {
 
     private int width;
@@ -135,19 +137,65 @@ public class Window extends Frame {
         ovalg2d.fillOval((x*50)+7,(y*50)+7,35,35);
     }
 
-        // used by the Volcano event
-    public void destroyRandomBuildings(int count) {
-        List<int[]> occupied = IntStream.range(0, grid.length)
+    // finds every grid cell whose building passes the test given as a lambda
+    private List<int[]> findCells(Predicate<Building> test) {
+        return IntStream.range(0, grid.length)
                 .boxed()
                 .flatMap(x -> IntStream.range(0, grid[x].length)
-                        .filter(y -> grid[x][y] != null)
+                        .filter(y -> grid[x][y] != null && test.test(grid[x][y]))
                         .mapToObj(y -> new int[]{x, y}))
                 .collect(Collectors.toList());
+    }
 
+    // counts buildings of any type, e.g. countBuildings(Shop.class)
+    public long countBuildings(Class<? extends Building> type) {
+        return Arrays.stream(grid)
+                .flatMap(Arrays::stream)
+                .filter(type::isInstance)
+                .count();
+    }
+
+    // used by the Volcano event
+    public void destroyRandomBuildings(int count) {
+        List<int[]> occupied = findCells(building -> true);
         Collections.shuffle(occupied);
         occupied.stream()
                 .limit(count)
                 .forEach(cell -> remove(cell[0], cell[1]));
+    }
+
+    // used by the MallOpening event: four shops merge into one mall
+    public boolean openMall() {
+        List<int[]> shops = findCells(building -> building instanceof Shop);
+        if (!Mall.canBuild(shops.size(), totalPeople())) {
+            return false;
+        }
+
+        Mall mall = new Mall();
+        for (int i = 0; i < Mall.SHOPS_REQUIRED; i++) {
+            int[] cell = shops.get(i);
+            mall.list[i] = (Shop) grid[cell[0]][cell[1]];
+            remove(cell[0], cell[1]);
+        }
+
+        int[] site = shops.get(0);
+        place(site[0], site[1], mall);
+        boostHousesNear(site[0], site[1]);
+        return true;
+    }
+
+    // houses within 2 cells of a new mall gain 2 adults
+    private void boostHousesNear(int mallX, int mallY) {
+        findCells(building -> building instanceof House).stream()
+                .filter(cell -> Math.abs(cell[0] - mallX) <= 2 && Math.abs(cell[1] - mallY) <= 2)
+                .map(cell -> (House) grid[cell[0]][cell[1]])
+                .forEach(house -> house.setAdults(house.getAdults() + 2));
+    }
+
+    // a mall counts as the shops it replaced
+    private boolean needsShop() {
+        long shopSpaces = countBuildings(Shop.class) + countBuildings(Mall.class) * Mall.SHOPS_REQUIRED;
+        return shopSpaces < Shop.shopsRequired(totalPeople());
     }
     
     public void remove(int x, int y){ 
@@ -268,21 +316,20 @@ public class Window extends Frame {
         return count;
     }
 
-     public void houseMain(){
-        House house = new House(2,2);
-        // check if needed
-        //incPopulation();
+    public void houseMain(){
         //find locaiton
         int[] locaition = findFreeLocation();
         // the chosen area of the grid can be full, so skip placing this tick
         if (locaition == null) {
             return;
         }
+        // build a shop if the population needs one, otherwise a house
+        Building next = needsShop() ? new Shop() : new House(2, 2);
         //draw
-        place(locaition[0], locaition[1], house);
+        place(locaition[0], locaition[1], next);
         System.out.println("total population: "+ totalPeople());
     }
-    
+
         public void decPopulation(){
         int step = 30;
         ArrayList<House> total = new ArrayList<House>();

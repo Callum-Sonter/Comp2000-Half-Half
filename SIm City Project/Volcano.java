@@ -1,5 +1,5 @@
 public class Volcano implements EventLogic {
-    private static final int BUILDINGS_DESTROYED = 5;
+    private static final int BUILDINGS_DESTROYED = 7;
 
     @Override
     public void event(Window city) {

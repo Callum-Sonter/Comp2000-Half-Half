@@ -3,7 +3,7 @@ import java.awt.Color;
 
 public class Mall extends Building {
     public Shop[] list; // a mall is made up of an array of shops
-    private static final int SHOPS_REQUIRED = 4;
+    public  static final int SHOPS_REQUIRED = 4;
     private static final int MIN_POPULATION = 100;
     
 

@@ -1,13 +1,12 @@
 import java.util.Random;
 public class Main {
-    private static final int EVENT_INTERVAL = 20;
+    private static final int EVENT_INTERVAL = 10;
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing program");
         Window w = new Window(800, 600);
         StatsWindow sw = new StatsWindow(300, 300);
         EventStrategyManager eventManager = new EventStrategyManager();
-        EventLogic[] events = {new Volcano(), new Flood(), new BabyBoom()};
-
+        EventLogic[] events = {new Volcano(), new Flood(), new BabyBoom(), new MallOpening()};
         
         Office o = new Office(0, 0);
         int money = o.generateIncome();
@@ -20,13 +19,14 @@ public class Main {
             w.houseMain();
             tick++;
 
-            // every 20 ticks (about 10 seconds), a random event hits the city
+            // every 20 ticks (about 10 seconds), a random hits the city
             if (tick % EVENT_INTERVAL == 0) {
                 eventManager.setStrategy(events[random.nextInt(events.length)]);
                 eventManager.executeStrategy(w);
             }
 
             sw.updateLabel(Integer.toString(w.totalPeople()));
+            sw.updateShopLabel(w.countBuildings(Shop.class) + "  malls: " + w.countBuildings(Mall.class));
             Thread.sleep(500);
             w.repaint();
        }

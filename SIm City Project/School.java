@@ -25,8 +25,8 @@ public class School extends Building implements PopulationObserver {
         this.name     = b.name;
         this.students = b.students;
         this.teachers = b.teachers;
-        this.x        = b.x;
-        this.y        = b.y;
+        setX(b.x);
+        setY(b.y);
     }
 
     // ---------- Builder pattern: nested Builder ----------

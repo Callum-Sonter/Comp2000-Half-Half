@@ -14,6 +14,10 @@ public class School extends Building implements PopulationObserver {
     private final int teachers;
     private final String name;
 
+    public int x;
+
+    public int y;
+
     // ---------- Default constructor used by Main ----------
     public School() {
         this(new Builder());

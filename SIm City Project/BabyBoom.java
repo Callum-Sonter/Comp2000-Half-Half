@@ -1,4 +1,3 @@
-package strategy;
 public class BabyBoom implements EventLogic {
     int popBurst = 600;
     

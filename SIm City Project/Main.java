@@ -8,7 +8,7 @@ public class Main {
 
         
         BuildStrategyManager buildManager = new BuildStrategyManager();
-        BuildLogic[] builds = {new houseStrategy(), new OfficeStrategy(), new SchoolStrategy(), new ShopStrategy(), new ApartmentStrategy(), new MallStrategy()};
+        BuildLogic[] builds = {new HouseStrategy(), new OfficeStrategy(), new SchoolStrategy(), new ShopStrategy(), new ApartmentStrategy(), new MallStrategy()};
        //creating main loop
 
        

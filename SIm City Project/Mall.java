@@ -39,4 +39,8 @@ public class Mall extends Building {
         g2d.setColor(Color.ORANGE);
         g2d.fillRect((x * 50) + 7, (y * 50) + 7, 35, 35);
     }
+        @Override 
+    public String getName(){
+        return getClass().getSimpleName();
+    } 
 }

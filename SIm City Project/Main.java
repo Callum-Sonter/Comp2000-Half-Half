@@ -1,26 +1,28 @@
+import java.util.ArrayList;
+
+
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing program");
         Window w = new Window(800, 600);
         StatsWindow sw = new StatsWindow(300, 300);
-        EventStrategyManager eventManager = new EventStrategyManager();
-        EventLogic[] events = {new Volcano(), new Flood(), new BabyBoom()};
-
         
-        Office o = new Office(0, 0);
-        int money = o.generateIncome();
+        EventStrategyManager eventManager = new EventStrategyManager();
+        EventLogic[] events = {new houseStrategy(), new OfficeStrategy(), new SchoolStrategy(), new ShopStrategy(), new ApartmentStrategy(), new MallStrategy()};
        //creating main loop
 
-       while (w.isDisplayable()){
-            w.houseMain();
+       
+
+
+        eventManager.SetStrategy(events[0]);
+
+        while (w.isDisplayable()){
+        eventManager.executeStrategy(w);
             Thread.sleep(500);
+            eventManager.SetStrategy(events[(int)(Math.random() * events.length)]);
             w.repaint();
-
        }
-
-
-
 
 
 

@@ -29,4 +29,9 @@ public class Office extends Apartment{
         g2d.setColor(Color.BLUE);
         g2d.fillOval((x * 50) + 7, (y * 50) + 7, 35, 35);
     }
+
+        @Override 
+    public String getName(){
+        return getClass().getSimpleName();
+    } 
 }

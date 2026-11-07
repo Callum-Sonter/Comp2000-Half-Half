@@ -81,7 +81,7 @@ public class School extends Building implements PopulationObserver {
     // ---------- Getters ----------
     public int getStudents() { return students; }
     public int getTeachers() { return teachers; }
-    public String getName()  { return name; }
+    public String getName()  { return getClass().getSimpleName(); }
 
     @Override
     public int getPopulation() { return students + teachers; }
@@ -107,4 +107,6 @@ public class School extends Building implements PopulationObserver {
     public void printAllObservers() {
         observers.forEach(o -> System.out.println("Observer: " + o.getClass().getSimpleName()));
     }
+
+
 }

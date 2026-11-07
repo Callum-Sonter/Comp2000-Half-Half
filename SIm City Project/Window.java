@@ -249,16 +249,16 @@ public class Window extends Frame {
         return count;
     }
 
-    public void houseMain(){
-        House house = new House(2,2);
-        // check if needed
-        //incPopulation();
-        //find locaiton
-        int[] locaition = findFreeLocation();
-        //draw
-        place(locaition[0], locaition[1], house);
-        System.out.println("total population: "+ totalPeople());
-    }
+    // public void houseMain(){
+    //     House house = new House(2,2);
+    //     // check if needed
+    //     //incPopulation();
+    //     //find locaiton
+    //     int[] locaition = findFreeLocation();
+    //     //draw
+    //     place(locaition[0], locaition[1], house);
+    //     System.out.println("total population: "+ totalPeople());
+    // }
 
         public void decPopulation(){
         int step = 30;

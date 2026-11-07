@@ -17,8 +17,13 @@ public class Shop extends Building{
      // draws a blue square to represent a shop
     @Override
     public void build(Graphics2D g2d, int x, int y) {
-        g2d.setColor(Color.BLUE);
+        g2d.setColor(Color.YELLOW);
         g2d.fillRect((x * 50) + 7,(y * 50) +7, 35, 35);
     }
+     @Override 
+    public String getName(){
+        return getClass().getSimpleName();
+    } 
+    
     } 
 

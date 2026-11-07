@@ -1,4 +1,4 @@
-public class houseStrategy implements EventLogic {
+public class houseStrategy implements BuildLogic {
 
     @Override
     public void build(Window w) {

@@ -1,4 +1,4 @@
-public class OfficeStrategy implements EventLogic {
+public class OfficeStrategy implements BuildLogic {
 
     @Override
     public void build(Window w) {

@@ -1,4 +1,4 @@
-public class ShopStrategy implements EventLogic {
+public class ShopStrategy implements BuildLogic {
 
     @Override
     public void build(Window w) {

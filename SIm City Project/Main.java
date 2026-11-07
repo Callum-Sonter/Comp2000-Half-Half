@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 
 
@@ -6,10 +5,10 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing program");
         Window w = new Window(800, 600);
-        StatsWindow sw = new StatsWindow(300, 300);
+
         
-        EventStrategyManager eventManager = new EventStrategyManager();
-        EventLogic[] events = {new houseStrategy(), new OfficeStrategy(), new SchoolStrategy(), new ShopStrategy(), new ApartmentStrategy(), new MallStrategy()};
+        BuildStrategyManager eventManager = new BuildStrategyManager();
+        BuildLogic[] events = {new houseStrategy(), new OfficeStrategy(), new SchoolStrategy(), new ShopStrategy(), new ApartmentStrategy(), new MallStrategy()};
        //creating main loop
 
        

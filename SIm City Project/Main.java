@@ -6,7 +6,13 @@ public class Main {
         Window w = new Window(800, 600);
         StatsWindow sw = new StatsWindow(300, 300);
         EventStrategyManager eventManager = new EventStrategyManager();
-        EventLogic[] events = {new Volcano(), new Flood(), new BabyBoom(), new MallOpening()};
+                // a whole event written as a lambda, with no class needed
+        EventLogic earthquake = city -> {
+            city.destroyRandomBuildings(3);
+            System.out.println("Earthquake! Population is now " + city.totalPeople());
+        };
+
+        EventLogic[] events = {new Volcano(), new Flood(), new BabyBoom(), new MallOpening(), earthquake};
         
         Office o = new Office(0, 0);
         int money = o.generateIncome();

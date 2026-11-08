@@ -19,25 +19,16 @@ public class Window extends Frame {
         return new int[]{grid.length, grid[x].length}; 
     }
 
-     public int totalPeople(){
-        int total = 0;
-        for (int x = 0; x<grid.length; x++){
-            for (int y = 0; y<grid[x].length; y++){
-                try{
-                    if (grid[x][y] == null)
-                        continue;
-                    if (grid[x][y].getName().equals("Apartment") || grid[x][y].getName().equals( "House")){
-                        total += grid[x][y].getPopulation();
-                        continue;
-                    }
-               }
-                catch(Exception e){
-                    System.out.println("problem with if statement in totalpeople "+grid[x][y]);
-                }
-            }
-        }
-        // System.out.println("total people = "+total);
-        return total;
+        // counts people in every House and Apartment
+    // parallel is safe: it only reads the grid, and sum() combines each thread's partial total
+    public int totalPeople(){
+        return Arrays.stream(grid)
+                .parallel()
+                .flatMap(Arrays::stream)
+                .filter(building -> building != null)
+                .filter(building -> "House".equals(building.getName()) || "Apartment".equals(building.getName()))
+                .mapToInt(Building::getPopulation)
+                .sum();
     }
 
     public void reset(){

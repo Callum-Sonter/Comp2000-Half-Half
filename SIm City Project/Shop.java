@@ -11,7 +11,7 @@ public class Shop extends Building{
 
      //how many shops the city should have 
      public static int shopsRequired(int population) { 
-        return population / 50; 
+        return population / 15; 
      }
 
      // draws a blue square to represent a shop
